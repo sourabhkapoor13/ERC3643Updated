@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>tokenization System</title>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+	<script type="text/javascript" src="index.js"> </script>
+	<style>
+		/* CSS styles for the DApp interface */
+		body {
+			background-color: grey;	
+			font-family: tahoma;
+			font-size: 33px;
+			display: flex;
+			flex-direction: row;
+		}
+
+		button {
+			background-color: ghostwhite;
+			font-size: 33px;
+			padding: 5px;
+			font-family: Impact;
+		}
+
+		input {
+			width: 25vw;
+			height: 30px;
+			font-size: 25px;
+			font-family: tahoma;
+			outline: none;
+		}
+
+		#readArea {
+			flex-basis: 50%;
+		}
+
+		#writeArea {
+			flex-basis: 50%;
+		}
+
+		button:hover {
+			background-color: lightsalmon;
+		}
+
+		p {
+			font-size: small;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div id="readArea">
+		<!-- Button for connecting to Metamask -->
+		<button onclick="connectMetamask()">CONNECT TO METAMASK</button>
+		<p id="userArea">Status: Not connected to Metamask</p>
+
+		<!-- Button for connecting to the smart contract -->
+		<button onclick="connectContract()">CONNECT TO CONTRACT</button>
+		<p id="contractArea">Status: Not connected to Contract</p>
+
+		<!-- Button and input fields for creating an identity -->
+		<button onclick="createIdentity()">create Identity</button><br>
+		<input type="text" id="userAddressForIdentity" placeholder="address of user"> <br>
+		<p id="identityAddress">identity is going to be created by this function</p><br>
+
+
+        <!-- Button and input fields for creating an claim Issuer -->
+		<button onclick="createClaimIssuer()">create claimIssuer</button><br>
+		<input type="text" id="userAddressForClaimIssuer" placeholder="address of user"> <br>
+		<p id="ClaimIssuerAddress">identity is going to be created by this function</p><br>
+
+
+        
+
+        <button onclick="addKeyInIdentity()">add claim power</button><br>
+		<input type="text" id="addOfIdentity" placeholder="address of identity user"> <br>
+		<input type="text" id="addofClaim" placeholder="address of claim user"> <br>
+		
+        <p id="addkey">claim power is going to given by identity itself</p><br>
+
+        <button onclick="addClaimInIdentity()">add claim    </button><br>
+		<input type="text" id="addrOfIdentity" placeholder="address of identity user"> <br>
+		<input type="text" id="addrofClaim" placeholder="address of claim user"> <br>
+		
+        <p id="addclaim">claim is going to given by identity by claim issuer</p><br>
+
+		<button onclick="registerUser()">Register User</button><br>
+		<input type="text" id="ownerTokenforRegistry" placeholder="address of owner"> <br>
+		<input type="number" id="idTokenforRegistry" placeholder="id of token"> <br>
+		<input type="text" id="recipient" placeholder="address of user"> <br>
+		<input type="number" id="countryCode" placeholder="country code"> <br>
+        <p id="adduser">user will be registered by this function </p><br>
+
+		<button onclick="mintToken()">mint token</button><br>
+		<input type="text" id="ownerTokenforMint" placeholder="address of owner"> <br>
+		<input type="number" id="idTokenforMint" placeholder="id of token"> <br>
+		<input type="text" id="recipientOfToken" placeholder="address of user"> <br>
+		<input type="number" id="amountMint" placeholder="amount Of Tokens"> <br>
+        <p id="mint">token will minted in recipients account by agent </p><br>
+	</div>
+    <div id="writeArea">
+        <!-- Button and input fields for creating an identity -->
+		<button onclick="getIdentity()">get Identity</button><br>
+		<input type="text" id="AddressForIdentity" placeholder="address of user"> <br>
+		<p id="gotidentityAddress">identity is going to be given by this function</p><br>
+
+
+        <!-- Button and input fields for creating an claim Issuer -->
+		<button onclick="getClaimIssuer()">get claimIssuer</button><br>
+		<input type="text" id="AddressForClaimIssuer" placeholder="address of user"> <br>
+		<p id="gotClaimIssuerAddress">identity is going to be given by this function</p><br>
+
+		<button onclick="makeToken()">make Token </button><br>
+		<input type="text" id="OwnerAddress" placeholder="address of Owner"> <br>
+		<input type="text" id="nameEvent" placeholder="name Of event"> <br>
+		<input type="text" id="tokenName" placeholder="name of token"> <br>
+		<input type="text" id="SymbolToken" placeholder="Symbol of Token"> <br>
+		<input type="number" id="DecimalToken" placeholder="decimal of token"> <br>
+		<!-- <input type="text" id="onchainIdToken" placeholder="onchainId of token(can be zero)"> <br> -->
+		<p id="createToken">token is going to be given by this function</p><br>
+		
+
+
+		<button onclick="makeAgent()">make agent </button><br>
+		<input type="text" id="ownerForAgent" placeholder="address of Owner"> <br>
+		<input type="number" id="idOfEventForAgent" placeholder="id Of event"> <br>
+		<input type="text" id="agentAddress" placeholder="address of agent"> <br>
+		<p id="giveAgentPower">agent will be added by this function for token</p><br>
+
+		<button onclick="makeClaimIssuer()">make Issuer of token </button><br>
+		<input type="text" id="ownerForclaimIssuer" placeholder="address of Owner"> <br>
+		<input type="number" id="idforClaimIssuer" placeholder="id Of event"> <br>
+		<input type="text" id="issuerAddress" placeholder="address of issuer"> <br>
+		<p id="giveIssuerPower">issuer will be added by this function for token</p><br>
+
+
+		<button onclick="IsVerified()">Is Verified User </button><br>
+		<input type="text" id="ownerForIsVerified" placeholder="address of Owner"> <br>
+		<input type="number" id="idforIsVerified" placeholder="id Of event"> <br>
+		<input type="text" id="userAdddr" placeholder="address of user"> <br>
+		<p id="IsVerified">checking is user verified by the issuer or not</p><br>
+
+		<button onclick="checkBalance()">check Balance </button><br>
+		<input type="text" id="ownerTokenforbal" placeholder="address of Owner"> <br>
+		<input type="number" id="idTokenforbal" placeholder="id Of event"> <br>
+		<input type="text" id="recipientOfTokenforBal" placeholder="address of checker"> <br>
+		<p id="checkBal">checking is user verified by the issuer or not</p><br>
+
+    </div>
+</body> 
+
+</html>
